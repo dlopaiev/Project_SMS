@@ -44,7 +44,7 @@ public class Main extends javax.swing.JFrame {
         jCheckBox1 = new javax.swing.JCheckBox();
         jCheckBox2 = new javax.swing.JCheckBox();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        textAreaEmail = new javax.swing.JTextArea();
         buttonClear = new javax.swing.JButton();
         buttonAttachFile = new javax.swing.JButton();
         buttonSend = new javax.swing.JButton();
@@ -146,10 +146,10 @@ public class Main extends javax.swing.JFrame {
         jCheckBox2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jCheckBox2.setText("Emails from Database");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        textAreaEmail.setColumns(20);
+        textAreaEmail.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        textAreaEmail.setRows(5);
+        jScrollPane1.setViewportView(textAreaEmail);
 
         buttonClear.setBackground(new java.awt.Color(44, 53, 49));
         buttonClear.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -158,6 +158,11 @@ public class Main extends javax.swing.JFrame {
         buttonClear.setBorder(null);
         buttonClear.setBorderPainted(false);
         buttonClear.setFocusPainted(false);
+        buttonClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonClearActionPerformed(evt);
+            }
+        });
 
         buttonAttachFile.setBackground(new java.awt.Color(44, 53, 49));
         buttonAttachFile.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -348,12 +353,18 @@ public class Main extends javax.swing.JFrame {
             for(EmailAccount acc : accounts) {
                 EmailTLS emailTLS = new EmailTLS(acc.getAccEmail(), acc.getAccPassword(), acc.getAccSMTP());
                 emailTLS.initiateSession();
-                emailTLS.sendEmailTLS("denys@constructionsafety.ca", "Subject", "Text");
+                emailTLS.sendEmailTLS("denys@constructionsafety.ca", fieldSubject.getText(), textAreaEmail.getText());
             }
         } catch(NullPointerException npe) {
             System.out.print("No accounts selected.");
         }
     }//GEN-LAST:event_buttonSendActionPerformed
+
+    private void buttonClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonClearActionPerformed
+        // TODO add your handling code here:
+        fieldSubject.setText("");
+        textAreaEmail.setText("");
+    }//GEN-LAST:event_buttonClearActionPerformed
 
     /**
      * @param args the command line arguments
@@ -411,9 +422,9 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JPanel sidePanel;
+    private javax.swing.JTextArea textAreaEmail;
     private javax.swing.JPanel topPanel;
     // End of variables declaration//GEN-END:variables
     private SetupAccounts formSetupAccounts;    
