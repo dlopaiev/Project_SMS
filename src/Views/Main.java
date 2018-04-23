@@ -23,6 +23,7 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
         formSetupAccounts = new SetupAccounts();
+        formEmailsFromFile = new EmailsFromFile();
         this.setLocationRelativeTo(null);
     }
 
@@ -99,6 +100,11 @@ public class Main extends javax.swing.JFrame {
         buttonEmailsFromFile.setBorder(null);
         buttonEmailsFromFile.setBorderPainted(false);
         buttonEmailsFromFile.setContentAreaFilled(false);
+        buttonEmailsFromFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonEmailsFromFileActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -366,6 +372,11 @@ public class Main extends javax.swing.JFrame {
         textAreaEmail.setText("");
     }//GEN-LAST:event_buttonClearActionPerformed
 
+    private void buttonEmailsFromFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEmailsFromFileActionPerformed
+        // TODO add your handling code here:
+        formEmailsFromFile.setVisible(true);
+    }//GEN-LAST:event_buttonEmailsFromFileActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -427,6 +438,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTextArea textAreaEmail;
     private javax.swing.JPanel topPanel;
     // End of variables declaration//GEN-END:variables
-    private SetupAccounts formSetupAccounts;    
+    private SetupAccounts formSetupAccounts;   
+    private EmailsFromFile formEmailsFromFile;
     
 }

@@ -43,6 +43,8 @@ public class SetupAccounts extends javax.swing.JFrame {
         topPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         buttonDeleteAccount = new javax.swing.JButton();
+        buttonSaveSettings = new javax.swing.JButton();
+        buttonLoadSettings = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
@@ -129,6 +131,32 @@ public class SetupAccounts extends javax.swing.JFrame {
             }
         });
 
+        buttonSaveSettings.setBackground(new java.awt.Color(44, 53, 49));
+        buttonSaveSettings.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        buttonSaveSettings.setForeground(new java.awt.Color(255, 255, 255));
+        buttonSaveSettings.setText("Save Settings");
+        buttonSaveSettings.setBorder(null);
+        buttonSaveSettings.setBorderPainted(false);
+        buttonSaveSettings.setFocusPainted(false);
+        buttonSaveSettings.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonSaveSettingsActionPerformed(evt);
+            }
+        });
+
+        buttonLoadSettings.setBackground(new java.awt.Color(44, 53, 49));
+        buttonLoadSettings.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        buttonLoadSettings.setForeground(new java.awt.Color(255, 255, 255));
+        buttonLoadSettings.setText("Load Settings");
+        buttonLoadSettings.setBorder(null);
+        buttonLoadSettings.setBorderPainted(false);
+        buttonLoadSettings.setFocusPainted(false);
+        buttonLoadSettings.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonLoadSettingsActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -140,6 +168,10 @@ public class SetupAccounts extends javax.swing.JFrame {
                         .addComponent(buttonAddAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(buttonDeleteAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(buttonSaveSettings, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(buttonLoadSettings, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(buttonOk, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -158,7 +190,9 @@ public class SetupAccounts extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonAddAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buttonOk, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonDeleteAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(buttonDeleteAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buttonSaveSettings, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buttonLoadSettings, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(25, 25, 25))
         );
 
@@ -213,6 +247,14 @@ public class SetupAccounts extends javax.swing.JFrame {
         }        
     }//GEN-LAST:event_buttonDeleteAccountActionPerformed
 
+    private void buttonSaveSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveSettingsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buttonSaveSettingsActionPerformed
+
+    private void buttonLoadSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLoadSettingsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buttonLoadSettingsActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -251,7 +293,9 @@ public class SetupAccounts extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonAddAccount;
     private javax.swing.JButton buttonDeleteAccount;
+    private javax.swing.JButton buttonLoadSettings;
     private javax.swing.JButton buttonOk;
+    private javax.swing.JButton buttonSaveSettings;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

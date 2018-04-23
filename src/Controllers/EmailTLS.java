@@ -63,7 +63,7 @@ public class EmailTLS {
             message.setText(messageText);
             
             Transport.send(message);
-            System.out.println("Message was sent");
+            System.out.println("Successfully sent");
         } catch(AuthenticationFailedException afe) {
             System.out.println("Authentication Failed. Check security settings for email provider.");
         } 
