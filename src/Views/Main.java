@@ -6,10 +6,14 @@
 package Views;
 
 import Controllers.EmailTLS;
+import Helpers.ComponentResizer;
 import Models.EmailAccount;
+import java.awt.Dimension;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.util.List;
-import javax.mail.AuthenticationFailedException;
-import javax.swing.JFrame;
+
 
 /**
  *
@@ -20,11 +24,38 @@ public class Main extends javax.swing.JFrame {
     /**
      * Creates new form Main
      */
+    private int pX, pY;
+    
     public Main() {
         initComponents();
         formSetupAccounts = new SetupAccounts();
         formEmailsFromFile = new EmailsFromFile();
-        this.setLocationRelativeTo(null);
+        this.setLocationRelativeTo(null);         
+        //this.makeResizable();     
+        addMouseListener(new MouseAdapter() {
+                public void mousePressed(MouseEvent me) {
+                    // Get x,y and store them
+                    pX = me.getX();
+                    pY = me.getY();
+
+                }
+                
+
+                 public void mouseDragged(MouseEvent me) {
+
+                    setLocation(getLocation().x + me.getX() - pX,
+                            getLocation().y + me.getY() - pY);
+                }
+                
+            });
+        
+            addMouseMotionListener(new MouseMotionAdapter() {
+                public void mouseDragged(MouseEvent me) {
+                    
+                    setLocation(getLocation().x + me.getX() - pX,
+                            getLocation().y + me.getY() - pY);
+                }
+            });
     }
 
     /**
@@ -64,10 +95,14 @@ public class Main extends javax.swing.JFrame {
         setTitle("SMS");
         setLocationByPlatform(true);
         setMaximumSize(new java.awt.Dimension(1336, 917));
+        setMinimumSize(new java.awt.Dimension(1336, 917));
         setUndecorated(true);
+        setPreferredSize(new java.awt.Dimension(1336, 917));
         setSize(new java.awt.Dimension(1336, 917));
 
         mainPanel.setBackground(new java.awt.Color(254, 255, 255));
+        mainPanel.setMinimumSize(new java.awt.Dimension(780, 460));
+        mainPanel.setName(""); // NOI18N
 
         sidePanel.setBackground(new java.awt.Color(18, 60, 105));
 
@@ -266,7 +301,7 @@ public class Main extends javax.swing.JFrame {
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainPanelLayout.createSequentialGroup()
                 .addComponent(sidePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(3, 3, 3)
+                .addGap(1, 1, 1)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(topPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(mainPanelLayout.createSequentialGroup()
@@ -293,7 +328,7 @@ public class Main extends javax.swing.JFrame {
                                 .addComponent(buttonExportToFile, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(fieldSubject))
                             .addComponent(jLabel3))
-                        .addContainerGap(286, Short.MAX_VALUE))))
+                        .addContainerGap(288, Short.MAX_VALUE))))
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -359,7 +394,7 @@ public class Main extends javax.swing.JFrame {
             for(EmailAccount acc : accounts) {
                 EmailTLS emailTLS = new EmailTLS(acc.getAccEmail(), acc.getAccPassword(), acc.getAccSMTP());
                 emailTLS.initiateSession();
-                emailTLS.sendEmailTLS("denys@constructionsafety.ca", fieldSubject.getText(), textAreaEmail.getText());
+                emailTLS.sendEmailTLS("denys.lopaiev@gmail.com", fieldSubject.getText(), textAreaEmail.getText());
             }
         } catch(NullPointerException npe) {
             System.out.print("No accounts selected.");
@@ -369,14 +404,23 @@ public class Main extends javax.swing.JFrame {
     private void buttonClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonClearActionPerformed
         // TODO add your handling code here:
         fieldSubject.setText("");
-        textAreaEmail.setText("");
+        textAreaEmail.setText("");     
+        
     }//GEN-LAST:event_buttonClearActionPerformed
 
     private void buttonEmailsFromFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEmailsFromFileActionPerformed
         // TODO add your handling code here:
         formEmailsFromFile.setVisible(true);
+        
     }//GEN-LAST:event_buttonEmailsFromFileActionPerformed
 
+    private void makeResizable() {
+        ComponentResizer cr = new ComponentResizer();
+        cr.setMinimumSize(new Dimension(780, 460));
+        cr.setMaximumSize(new Dimension(1336, 917));
+        cr.registerComponent(this);
+        cr.setSnapSize(new Dimension(4, 10));
+    }
     /**
      * @param args the command line arguments
      */

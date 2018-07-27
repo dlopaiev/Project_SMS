@@ -60,7 +60,7 @@ public class EmailTLS {
             message.setFrom(new InternetAddress(username));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
             message.setSubject(subject);
-            message.setText(messageText);
+            message.setContent(messageText, "text/html");
             
             Transport.send(message);
             System.out.println("Successfully sent");

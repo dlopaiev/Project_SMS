@@ -34,9 +34,11 @@ public class EmailFile {
         
         try {
             BufferedReader reader = new BufferedReader(new FileReader(loadedFile));
-            String line = reader.readLine();
+            String line = reader.readLine().trim();
             while(line != null) {
-                emailsList.add(line);
+                if(! line.isEmpty()) {
+                    emailsList.add(line);
+                }                
                 line = reader.readLine();
             }            
             reader.close();
