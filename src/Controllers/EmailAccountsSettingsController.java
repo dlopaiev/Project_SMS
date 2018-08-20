@@ -31,7 +31,7 @@ public class EmailAccountsSettingsController {
     private List<EmailAccount> accounts = new ArrayList<>();
 
     public EmailAccountsSettingsController() {
-        this.dirSettings = Paths.get(getJarLocation()+"/settings");
+        this.dirSettings = Paths.get(/*getJarLocation()+*/"./settings");
     }
     
     public void setAccounts(List<EmailAccount> accounts) {

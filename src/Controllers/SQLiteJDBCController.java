@@ -28,8 +28,9 @@ import java.util.List;
  */
 public class SQLiteJDBCController implements JDBCController {
 
-    private Path dbLocation = Paths.get(getJarLocation() + "/db");
+    private Path dbLocation = Paths.get(/*getJarLocation() + */"./db");
     private Connection connection = null;
+    private ResultSet rs = null;
 
     @Override
     public void connect(String dbName) {        
@@ -93,6 +94,7 @@ public class SQLiteJDBCController implements JDBCController {
     @Override
     public void creatRecord() {
         //TODO
+        
     }
 
     @Override
@@ -159,9 +161,8 @@ public class SQLiteJDBCController implements JDBCController {
         return tables;
     }
     
-    public ResultSet getRecords(String tableName) {
+    public ResultSet getRecords(String tableName) {        
         
-        ResultSet rs = null;
         if (connection != null) {
             try {
                 String query = "SELECT * FROM " + tableName;

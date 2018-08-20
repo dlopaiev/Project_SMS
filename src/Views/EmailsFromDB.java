@@ -9,6 +9,7 @@ import Controllers.EmailsFromDBController;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JComboBox;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -25,6 +26,7 @@ public class EmailsFromDB extends javax.swing.JFrame {
         formDatabaseSettings = new DatabaseSettings(efdbController);
         this.setVisible(false);
         this.setLocationRelativeTo(null);
+        newRows = new ArrayList<>();
     }
 
     /**
@@ -421,7 +423,7 @@ public class EmailsFromDB extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonOk, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buttonConnectToDB, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -440,7 +442,7 @@ public class EmailsFromDB extends javax.swing.JFrame {
                 .addComponent(topPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(1, 1, 1)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 558, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 564, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
@@ -452,7 +454,7 @@ public class EmailsFromDB extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 590, Short.MAX_VALUE)
         );
 
         pack();
@@ -483,6 +485,14 @@ public class EmailsFromDB extends javax.swing.JFrame {
 
     private void buttonAddRecordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddRecordActionPerformed
         // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        if (model.getColumnCount() != 0) {
+            model.addRow(new Object[]{});
+            newRows.add(model.getRowCount());
+            for (Integer row : newRows) {
+                System.out.println(row);
+            }
+        }        
     }//GEN-LAST:event_buttonAddRecordActionPerformed
 
     private void buttonDeleteRecordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDeleteRecordActionPerformed
@@ -574,4 +584,5 @@ public class EmailsFromDB extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     private DatabaseSettings formDatabaseSettings;
     private EmailsFromDBController efdbController;
+    private List<Integer> newRows;
 }
