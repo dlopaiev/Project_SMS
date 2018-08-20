@@ -5,11 +5,15 @@
  */
 package Models;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Denys
  */
-public class EmailAccount {
+public class EmailAccount implements Serializable {
+    
+    private static final long serialVersionUID = 1L;
     
     private String accEmail;
     private String accPassword;
@@ -46,8 +50,5 @@ public class EmailAccount {
 
     public void setStatus(boolean status) {
         this.status = status;
-    }
-    
-    
-    
+    } 
 }

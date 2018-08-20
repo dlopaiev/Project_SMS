@@ -9,6 +9,7 @@ import Models.EmailAccount;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -39,6 +40,27 @@ public class EmailAccountController {
                
         
         return accountlist;        
+    }
+    
+    public void fillUpTable(List<EmailAccount> accounts, JTable table) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();        
+        int rowcount = 0;        
+        model.setRowCount(0);               
+        
+        if(accounts.size() > 0) {
+            for(EmailAccount item : accounts) {
+                model.addRow(new Object []{});
+                                   
+                model.setValueAt(item.getAccEmail(), rowcount, 0);
+                model.setValueAt(item.getAccPassword(), rowcount, 1);
+                model.setValueAt(item.getAccSMTP(), rowcount, 2);
+                model.setValueAt(item.isStatus(), rowcount, 3);                
+                rowcount++;
+                
+            }
+            
+        }
+        
     }
     
 }

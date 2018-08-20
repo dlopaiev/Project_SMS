@@ -24,6 +24,7 @@ public class SetupAccounts extends javax.swing.JFrame {
         this.setVisible(false);
         this.setLocationRelativeTo(null);
         emacController = new EmailAccountController();
+        emailAccSettings = new EmailAccountsSettings();
     }
 
     /**
@@ -53,7 +54,7 @@ public class SetupAccounts extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         buttonOk.setBackground(new java.awt.Color(44, 53, 49));
-        buttonOk.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        buttonOk.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         buttonOk.setForeground(new java.awt.Color(255, 255, 255));
         buttonOk.setText("OK");
         buttonOk.setBorder(null);
@@ -86,7 +87,7 @@ public class SetupAccounts extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tableAccounts);
 
         buttonAddAccount.setBackground(new java.awt.Color(44, 53, 49));
-        buttonAddAccount.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        buttonAddAccount.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         buttonAddAccount.setForeground(new java.awt.Color(255, 255, 255));
         buttonAddAccount.setText("Add Account");
         buttonAddAccount.setBorder(null);
@@ -119,7 +120,7 @@ public class SetupAccounts extends javax.swing.JFrame {
         );
 
         buttonDeleteAccount.setBackground(new java.awt.Color(44, 53, 49));
-        buttonDeleteAccount.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        buttonDeleteAccount.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         buttonDeleteAccount.setForeground(new java.awt.Color(255, 255, 255));
         buttonDeleteAccount.setText("Delete Account");
         buttonDeleteAccount.setBorder(null);
@@ -132,7 +133,7 @@ public class SetupAccounts extends javax.swing.JFrame {
         });
 
         buttonSaveSettings.setBackground(new java.awt.Color(44, 53, 49));
-        buttonSaveSettings.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        buttonSaveSettings.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         buttonSaveSettings.setForeground(new java.awt.Color(255, 255, 255));
         buttonSaveSettings.setText("Save Settings");
         buttonSaveSettings.setBorder(null);
@@ -145,7 +146,7 @@ public class SetupAccounts extends javax.swing.JFrame {
         });
 
         buttonLoadSettings.setBackground(new java.awt.Color(44, 53, 49));
-        buttonLoadSettings.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        buttonLoadSettings.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         buttonLoadSettings.setForeground(new java.awt.Color(255, 255, 255));
         buttonLoadSettings.setText("Load Settings");
         buttonLoadSettings.setBorder(null);
@@ -184,7 +185,7 @@ public class SetupAccounts extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addComponent(topPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -249,10 +250,16 @@ public class SetupAccounts extends javax.swing.JFrame {
 
     private void buttonSaveSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveSettingsActionPerformed
         // TODO add your handling code here:
+        emailAccSettings.getAccountsFromParent(emacController.getAccounts(tableAccounts));
+        emailAccSettings.setVisible(true);
+        emailAccSettings.setSaveAccountsSettingsPanel();     
+        
     }//GEN-LAST:event_buttonSaveSettingsActionPerformed
 
     private void buttonLoadSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLoadSettingsActionPerformed
         // TODO add your handling code here:
+        emailAccSettings.setVisible(true);
+        emailAccSettings.setLoadAccountsSettingsPanel(emacController, tableAccounts);
     }//GEN-LAST:event_buttonLoadSettingsActionPerformed
 
     /**
@@ -304,4 +311,5 @@ public class SetupAccounts extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     private EmailAccountController emacController;
     private List<EmailAccount> accounts;
+    private EmailAccountsSettings emailAccSettings;
 }

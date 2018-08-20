@@ -8,11 +8,14 @@ package Views;
 import Controllers.EmailTLS;
 import Helpers.ComponentResizer;
 import Models.EmailAccount;
+import Models.EmailContact;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 /**
@@ -30,6 +33,7 @@ public class Main extends javax.swing.JFrame {
         initComponents();
         formSetupAccounts = new SetupAccounts();
         formEmailsFromFile = new EmailsFromFile();
+        formEmailsFromDB = new EmailsFromDB();
         this.setLocationRelativeTo(null);         
         //this.makeResizable();     
         addMouseListener(new MouseAdapter() {
@@ -113,6 +117,11 @@ public class Main extends javax.swing.JFrame {
         buttonEmailsFromDB.setBorder(null);
         buttonEmailsFromDB.setBorderPainted(false);
         buttonEmailsFromDB.setContentAreaFilled(false);
+        buttonEmailsFromDB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonEmailsFromDBActionPerformed(evt);
+            }
+        });
 
         buttonSetupAccounts.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         buttonSetupAccounts.setForeground(new java.awt.Color(255, 255, 255));
@@ -193,7 +202,7 @@ public class Main extends javax.swing.JFrame {
         jScrollPane1.setViewportView(textAreaEmail);
 
         buttonClear.setBackground(new java.awt.Color(44, 53, 49));
-        buttonClear.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        buttonClear.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         buttonClear.setForeground(new java.awt.Color(255, 255, 255));
         buttonClear.setText("Clear");
         buttonClear.setBorder(null);
@@ -206,14 +215,14 @@ public class Main extends javax.swing.JFrame {
         });
 
         buttonAttachFile.setBackground(new java.awt.Color(44, 53, 49));
-        buttonAttachFile.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        buttonAttachFile.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         buttonAttachFile.setForeground(new java.awt.Color(255, 255, 255));
         buttonAttachFile.setText("Attach file");
         buttonAttachFile.setBorder(null);
         buttonAttachFile.setBorderPainted(false);
 
         buttonSend.setBackground(new java.awt.Color(44, 53, 49));
-        buttonSend.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        buttonSend.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         buttonSend.setForeground(new java.awt.Color(255, 255, 255));
         buttonSend.setText("Send");
         buttonSend.setBorder(null);
@@ -239,21 +248,21 @@ public class Main extends javax.swing.JFrame {
         jScrollPane3.setViewportView(jTable2);
 
         buttonPause.setBackground(new java.awt.Color(44, 53, 49));
-        buttonPause.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        buttonPause.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         buttonPause.setForeground(new java.awt.Color(255, 255, 255));
         buttonPause.setText("Pause");
         buttonPause.setBorder(null);
         buttonPause.setBorderPainted(false);
 
         buttonStop.setBackground(new java.awt.Color(44, 53, 49));
-        buttonStop.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        buttonStop.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         buttonStop.setForeground(new java.awt.Color(255, 255, 255));
         buttonStop.setText("Stop");
         buttonStop.setBorder(null);
         buttonStop.setBorderPainted(false);
 
         buttonExportToFile.setBackground(new java.awt.Color(44, 53, 49));
-        buttonExportToFile.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        buttonExportToFile.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         buttonExportToFile.setForeground(new java.awt.Color(255, 255, 255));
         buttonExportToFile.setText("Export to file");
         buttonExportToFile.setBorder(null);
@@ -389,12 +398,25 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             List<EmailAccount> accounts = formSetupAccounts.getAccounts();
-            System.out.print(accounts.size());
+            List<EmailContact> contacts = formEmailsFromFile.getContacts();
+            
+            System.out.println("Accounts used: " + accounts.size());
+            System.out.println("Contacts to process: " + contacts.size());
             
             for(EmailAccount acc : accounts) {
                 EmailTLS emailTLS = new EmailTLS(acc.getAccEmail(), acc.getAccPassword(), acc.getAccSMTP());
+                /*
                 emailTLS.initiateSession();
-                emailTLS.sendEmailTLS("denys.lopaiev@gmail.com", fieldSubject.getText(), textAreaEmail.getText());
+                for(int i=0; i<3; i++) {
+                    emailTLS.sendEmailTLS("denys.lopaiev@gmail.com", fieldSubject.getText() + (i+1), textAreaEmail.getText());
+                }
+                */
+                EmailSending eSending = new EmailSending(emailTLS, contacts, fieldSubject.getText(), textAreaEmail.getText());
+                Runtime rt = Runtime.getRuntime();
+                int cpus = rt.availableProcessors();
+                System.out.println("Available processors " + cpus);
+                ExecutorService es = Executors.newFixedThreadPool(cpus);
+                es.execute(eSending);
             }
         } catch(NullPointerException npe) {
             System.out.print("No accounts selected.");
@@ -413,6 +435,11 @@ public class Main extends javax.swing.JFrame {
         formEmailsFromFile.setVisible(true);
         
     }//GEN-LAST:event_buttonEmailsFromFileActionPerformed
+
+    private void buttonEmailsFromDBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEmailsFromDBActionPerformed
+        // TODO add your handling code here:
+        formEmailsFromDB.setVisible(true);
+    }//GEN-LAST:event_buttonEmailsFromDBActionPerformed
 
     private void makeResizable() {
         ComponentResizer cr = new ComponentResizer();
@@ -450,6 +477,7 @@ public class Main extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new Main().setVisible(true);
                 
@@ -484,5 +512,32 @@ public class Main extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     private SetupAccounts formSetupAccounts;   
     private EmailsFromFile formEmailsFromFile;
+    private EmailsFromDB formEmailsFromDB;
     
+    class EmailSending implements Runnable {
+        
+        private EmailTLS eTLS;
+        private List<EmailContact> eContact;
+        private String eSubject;
+        private String eMessage;
+        
+        EmailSending(EmailTLS emailTLS, List<EmailContact> contactList, String subject, String message){
+            this.eTLS = emailTLS;
+            this.eContact = contactList;
+            this.eSubject = subject;
+            this.eMessage = message;
+        }
+        @Override
+        public void run() {
+            sendEmail();
+        }   
+        
+        private void sendEmail() {
+            eTLS.initiateSession();
+            for(EmailContact emailContact : eContact) {
+                eTLS.sendEmailTLS(emailContact.getEmail(), eSubject, eMessage);
+            }
+            
+        }
+    }
 }
