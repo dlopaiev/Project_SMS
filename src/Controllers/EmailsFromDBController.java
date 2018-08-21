@@ -24,6 +24,7 @@ public class EmailsFromDBController {
     
     private JTable table;
     private JPanel panel;
+    private SQLiteJDBCController sjdbcController;
     
     public EmailsFromDBController() {
         
@@ -78,6 +79,28 @@ public class EmailsFromDBController {
                     ((JComboBox) comp).addItem("Column " + (i + 1));
                 }
             }
+        }
+    }
+    
+    public void setSQLiteJDBCController(SQLiteJDBCController sjdbcController) {
+        this.sjdbcController = sjdbcController;
+    }
+    
+    public void insertToDatabase(List<Integer> newRows) {
+        List<String> cellValues = new ArrayList<>();
+        int columns = table.getColumnCount();
+        
+        for(Integer row : newRows) {
+            cellValues.clear();
+            for(int i=0; i<columns; i++) {
+                if(table.getValueAt((row-1), i) == null) {
+                    cellValues.add(null);
+                } else {
+                    cellValues.add(table.getValueAt((row-1), i).toString());
+                }                
+            }
+            sjdbcController.createRecord(cellValues);
+            
         }
     }
     

@@ -501,6 +501,8 @@ public class EmailsFromDB extends javax.swing.JFrame {
 
     private void buttonApplyChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonApplyChangesActionPerformed
         // TODO add your handling code here:
+        efdbController.insertToDatabase(newRows);
+        newRows.clear();
     }//GEN-LAST:event_buttonApplyChangesActionPerformed
 
     private void buttonDiscardChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDiscardChangesActionPerformed

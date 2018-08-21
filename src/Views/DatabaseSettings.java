@@ -9,6 +9,12 @@ import Controllers.DatabaseSettingsController;
 import Controllers.EmailsFromDBController;
 import Controllers.SQLiteJDBCController;
 import java.awt.GridLayout;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -268,9 +274,18 @@ public class DatabaseSettings extends javax.swing.JFrame {
         
         switch (jComboBox1.getSelectedItem().toString()) {
             case "SQLite":
-                if (sqliteSettings.getComboBox2().getSelectedItem() != null) {                    
-                    efdbController.fillUpTable(sjdbcController.getRecords(sqliteSettings.getComboBox2().getSelectedItem().toString()));
+                if (sqliteSettings.getComboBox2().getSelectedItem() != null) {  
+                    rs = sjdbcController.getRecords(sqliteSettings.getComboBox2().getSelectedItem().toString());
+                    efdbController.fillUpTable(rs);
                     efdbController.setComboBoxList();
+                    efdbController.setSQLiteJDBCController(sjdbcController);
+                    /*
+                    List<String> dataTypes = sjdbcController.getColumnsDataType();
+                    for(String dtype : dataTypes) {
+                        System.out.println(dtype);
+                    }
+                    */
+            
                 }
                 break;
             case "MySQL":
@@ -384,4 +399,5 @@ public class DatabaseSettings extends javax.swing.JFrame {
     private MySQLSettings mysqlSettings;
     private SQLiteJDBCController sjdbcController;
     private EmailsFromDBController efdbController;
+    private ResultSet rs;
 }

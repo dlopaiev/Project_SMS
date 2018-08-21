@@ -12,7 +12,7 @@ package Controllers;
 public interface JDBCController {    
     public void connect(String dbName);
     public void disconnect();
-    public void creatRecord();
+    public void createRecord();
     public void readRecord();
     public void updateRecord();
     public void deleteRecord();
