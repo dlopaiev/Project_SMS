@@ -9,6 +9,9 @@ import Models.EmailContact;
 import Models.EmailFile;
 import Views.EmailsFromFile;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -66,6 +69,56 @@ public class EmailFileController {
             }
             
         }
+    }  
+       
+    public void fillUpSortByCombo(JTable table, JComboBox combo) {
+        /*
+        String[] SORT_BY_LIST = {"Email", "First Name", "Last Name", "Phone",
+            "Company", "Address", "City", "Country", "Date of Birth"};
+        
+        for(String item : SORT_BY_LIST) {
+            combo.addItem(item);
+        }
+         */
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            combo.addItem("Column " + (i + 1));
+        }
+    }
+    
+    public void sortTable(JTable table, int selectedColumn, int direction) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        int colCount = model.getColumnCount();
+        int rowCount = model.getRowCount();
+        List<String[]> rowData = new ArrayList<>();
+        
+        int i = 0;
+        int j = 0;
+        
+        while(i < rowCount) {
+            String [] currentRow = new String[colCount];
+            while(j < colCount) {                
+                currentRow[j] = checkNull(model.getValueAt(i, j));
+                j++;
+            }
+            rowData.add(currentRow);
+            j = 0;
+            i++;                 
+        }
+        
+        Collections.sort(rowData, new CellComparator(selectedColumn, direction));        
+                
+        model.setRowCount(0);
+        rowCount = 0;
+        
+        for(String[] row : rowData) {
+            model.addRow(new Object []{});
+            j = 0;
+            while(j < colCount) {
+                model.setValueAt(row[j], rowCount, j);
+                j++;
+            }
+            rowCount++;
+        }
     }
     
     public List<EmailContact> getContacts(JTable table, List<JComboBox> cblist) {
@@ -116,4 +169,28 @@ public class EmailFileController {
         }
         return fieldValue;
     }
+}
+
+class CellComparator implements Comparator<String[]> {
+    
+    private int colNum;
+    private int direction;
+    CellComparator(int colNum, int direction) {
+        this.colNum = colNum;
+        this.direction = direction;
+    }
+
+    @Override
+    public int compare(String[] rowOne, String[] rowTwo) {
+        String colValue1 = "";
+        String colValue2 = "";
+        if (direction == 0) {
+            colValue1 = rowOne[colNum];
+            colValue2 = rowTwo[colNum];
+        } else {
+            colValue2 = rowOne[colNum];
+            colValue1 = rowTwo[colNum];
+        }
+        return colValue1.compareTo(colValue2);
+    }    
 }

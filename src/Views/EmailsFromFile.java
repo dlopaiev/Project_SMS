@@ -26,6 +26,9 @@ public class EmailsFromFile extends javax.swing.JFrame {
         initComponents();
         this.setVisible(false);
         this.setLocationRelativeTo(null);
+        efController = new EmailFileController();
+        direction = 0;
+        
     }
 
     /**
@@ -169,7 +172,7 @@ public class EmailsFromFile extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(25, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
@@ -301,6 +304,11 @@ public class EmailsFromFile extends javax.swing.JFrame {
         jButton2.setBorder(null);
         jButton2.setBorderPainted(false);
         jButton2.setContentAreaFilled(false);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -325,10 +333,10 @@ public class EmailsFromFile extends javax.swing.JFrame {
                         .addGap(43, 43, 43)
                         .addComponent(jLabel12)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox11, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jComboBox11, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2)
-                        .addGap(0, 265, Short.MAX_VALUE)))
+                        .addGap(0, 169, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -392,13 +400,12 @@ public class EmailsFromFile extends javax.swing.JFrame {
     }
     
     private void buttonLoadEmailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLoadEmailsActionPerformed
-        // TODO add your handling code here:
-        efController = new EmailFileController();
+        // TODO add your handling code here:        
         List<String> emailList = efController.loadEmails(efController.chooseFile(this));
         System.out.println(emailList.size());
 
         efController.fillUpTable(emailList, jTable1);
-        
+        efController.fillUpSortByCombo(jTable1, jComboBox11);
         for(Component comp: jPanel2.getComponents()) {
             if (comp instanceof JComboBox) {
                 ((JComboBox) comp).removeAllItems();
@@ -453,6 +460,16 @@ public class EmailsFromFile extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_buttonOkActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:        
+        efController.sortTable(jTable1, jComboBox11.getSelectedIndex(), direction);
+        if(direction == 0) {
+            direction++;
+        } else {
+            direction--;
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -527,4 +544,5 @@ public class EmailsFromFile extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     private EmailFileController efController;
     private List<EmailContact> contactList;
+    private int direction;
 }
