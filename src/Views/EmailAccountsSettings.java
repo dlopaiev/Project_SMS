@@ -11,7 +11,6 @@ import Models.EmailAccount;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.List;
-import javax.swing.GroupLayout;
 import javax.swing.JTable;
 
 /**
@@ -27,9 +26,7 @@ public class EmailAccountsSettings extends javax.swing.JFrame {
         initComponents();
         easController = new EmailAccountsSettingsController();
         saveAccSettings = new SaveAccountsSettings(easController);
-        
-        
-        jPanel1.setLayout(new BorderLayout());        
+        jPanel1.setLayout(new BorderLayout());
         this.setVisible(false);
         this.setLocationRelativeTo(null);
     }
@@ -115,16 +112,16 @@ public class EmailAccountsSettings extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     private SaveAccountsSettings saveAccSettings;
     private LoadAccountsSettings loadAccSettings;
-    private EmailAccountsSettingsController easController;    
-    
+    private EmailAccountsSettingsController easController;
+
     public void setSaveAccountsSettingsPanel() {
         jPanel1.removeAll();
         jPanel1.revalidate();
         jPanel1.repaint();
         this.setSize(new Dimension(211, 255));
-        jPanel1.add(saveAccSettings, BorderLayout.NORTH);        
+        jPanel1.add(saveAccSettings, BorderLayout.NORTH);
     }
-    
+
     public void setLoadAccountsSettingsPanel(EmailAccountController emacController, JTable tableAccounts) {
         loadAccSettings = new LoadAccountsSettings(emacController, tableAccounts);
         jPanel1.removeAll();
@@ -133,9 +130,9 @@ public class EmailAccountsSettings extends javax.swing.JFrame {
         this.setSize(new Dimension(211, 180));
         jPanel1.add(loadAccSettings, BorderLayout.NORTH);
     }
-    
+
     public void getAccountsFromParent(List<EmailAccount> accounts) {
-        
+
         easController.getAccountsFromParent(accounts);
     }
 

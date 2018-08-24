@@ -12,14 +12,14 @@ import java.io.Serializable;
  * @author Denys
  */
 public class EmailAccount implements Serializable {
-    
+
     private static final long serialVersionUID = 1L;
-    
+
     private String accEmail;
     private String accPassword;
     private String accSMTP;
     private boolean status;
-    
+
     public String getAccEmail() {
         return accEmail;
     }
@@ -50,5 +50,5 @@ public class EmailAccount implements Serializable {
 
     public void setStatus(boolean status) {
         this.status = status;
-    } 
+    }
 }

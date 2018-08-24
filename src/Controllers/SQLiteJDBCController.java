@@ -34,26 +34,25 @@ public class SQLiteJDBCController implements JDBCController {
     private Connection connection = null;
     private ResultSet rs = null;
     private String tableName;
-    
 
     @Override
-    public void connect(String dbName) { 
-        
+    public void connect(String dbName) {
+
         String url = "jdbc:sqlite:" + dbLocation + "/" + dbName + ".db";
         try {
             connection = DriverManager.getConnection(url);
-            System.out.println("Connection with " + dbName + ".db has been established!");            
+            System.out.println("Connection with " + dbName + ".db has been established!");
         } catch (SQLException sqle) {
             System.out.println("Connection has not been established!");
         }
     }
-    
-    public Connection connectToDB(String dbName) { 
-        
+
+    public Connection connectToDB(String dbName) {
+
         String url = "jdbc:sqlite:" + dbLocation + "/" + dbName + ".db";
         try {
             Connection connection = DriverManager.getConnection(url);
-            System.out.println("Connection with " + dbName + ".db has been established!");            
+            System.out.println("Connection with " + dbName + ".db has been established!");
         } catch (SQLException sqle) {
             System.out.println("Connection has not been established!");
         }
@@ -85,69 +84,68 @@ public class SQLiteJDBCController implements JDBCController {
             System.out.println(sqle.getMessage());
         }
     }
-    
+
     private void createNewTable(Connection connection) {
         //TODO
         String sqlQuery = "CREATE TABLE IF NOT EXISTS Contacts (\n"
-                +"ID integer NOT NULL PRIMARY KEY,\n"
-                +"Email text NOT NULL,\n"
-                +"FirstName text,\n"
-                +"LastName text,\n"
-                +"Phone text,\n"
-                +"Company text,\n"
-                +"Address text,\n"
-                +"City text,\n"
-                +"Country text,\n"
-                +"DOB text \n"
-                +");";
-        try(Statement stmnt = connection.createStatement()) {
+                + "ID integer NOT NULL PRIMARY KEY,\n"
+                + "Email text NOT NULL,\n"
+                + "FirstName text,\n"
+                + "LastName text,\n"
+                + "Phone text,\n"
+                + "Company text,\n"
+                + "Address text,\n"
+                + "City text,\n"
+                + "Country text,\n"
+                + "DOB text \n"
+                + ");";
+        try (Statement stmnt = connection.createStatement()) {
             stmnt.execute(sqlQuery);
             System.out.println("Table Contacts has been created");
-        }catch(SQLException sqle) {
+        } catch (SQLException sqle) {
             System.out.println(sqle.getMessage());
-        }        
+        }
     }
 
     @Override
     public void createRecord() {
         //TODO
-        
+
     }
-    
+
     public void createRecord(List<String> cellValues) {
         try {
             String colNames = "";
             String values = "";
-            for(String colName : getColumnsNames()) {
+            for (String colName : getColumnsNames()) {
                 colNames += "," + colName;
                 values += ",?";
             }
-            
+
             assert !",".equals(colNames) : "The database table has no columns!";
-            
-            String query = "INSERT INTO " + tableName + "("+ colNames.replaceFirst(",", "") + ") VALUES(" + values.replaceFirst(",", "") + ")";            
-            
+
+            String query = "INSERT INTO " + tableName + "(" + colNames.replaceFirst(",", "") + ") VALUES(" + values.replaceFirst(",", "") + ")";
+
             PreparedStatement pstmnt = connection.prepareStatement(query);
-            
-            int i = 0;            
-            for(String value : cellValues) {
-                switch(getColumnsDataType().get(i)) {
+
+            int i = 0;
+            for (String value : cellValues) {
+                switch (getColumnsDataType().get(i)) {
                     case "INTEGER":
-                        pstmnt.setInt(i+1, Integer.parseInt(value));                        
+                        pstmnt.setInt(i + 1, Integer.parseInt(value));
                         break;
                     case "TEXT":
-                        pstmnt.setString(i+1, value);                        
+                        pstmnt.setString(i + 1, value);
                         break;
                     case "NULL":
-                        pstmnt.setNull(i+1, java.sql.Types.INTEGER);                        
+                        pstmnt.setNull(i + 1, java.sql.Types.INTEGER);
                         break;
                 }
                 i++;
             }
             pstmnt.executeUpdate();
             pstmnt.close();
-            
-            
+
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
@@ -200,24 +198,24 @@ public class SQLiteJDBCController implements JDBCController {
         }
         return dbList;
     }
-    
+
     public List<String> getTables() {
         List<String> tables = new ArrayList<>();
         try {
             DatabaseMetaData dbmd = connection.getMetaData();
             ResultSet rs = dbmd.getTables(null, null, "%", null);
-            while(rs.next()) {
+            while (rs.next()) {
                 tables.add(rs.getString("TABLE_NAME"));
                 //System.out.println(rs.getString("TABLE_NAME"));
             }
-            rs.close();            
-        }catch(SQLException sqle) {
+            rs.close();
+        } catch (SQLException sqle) {
             System.out.println(sqle.getMessage());
         }
         return tables;
     }
-    
-    public ResultSet getRecords(String tableName) {        
+
+    public ResultSet getRecords(String tableName) {
         this.tableName = tableName;
         if (connection != null) {
             try {
@@ -230,7 +228,7 @@ public class SQLiteJDBCController implements JDBCController {
         }
         return rs;
     }
-    
+
     public List<String> getColumnsDataType() {
         List<String> dataTypes = new ArrayList<>();
         try {
@@ -241,14 +239,14 @@ public class SQLiteJDBCController implements JDBCController {
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        
+
         return dataTypes;
     }
-    
+
     public List<String> getColumnsNames() {
         List<String> colNames = new ArrayList<>();
         try {
-            
+
             ResultSetMetaData rsmd = getRecords(tableName).getMetaData();
             for (int i = 1; i <= rsmd.getColumnCount(); i++) {
                 colNames.add(rsmd.getColumnName(i));
@@ -256,7 +254,7 @@ public class SQLiteJDBCController implements JDBCController {
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        
+
         return colNames;
     }
 

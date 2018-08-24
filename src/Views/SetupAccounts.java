@@ -216,12 +216,12 @@ public class SetupAccounts extends javax.swing.JFrame {
     public List<EmailAccount> getAccounts() {
         return accounts;
     }
-    
+
     private void buttonOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonOkActionPerformed
         // TODO add your handling code here:
         accounts = emacController.getAccounts(tableAccounts);
         this.dispose();
-        
+
         //Verification
         /*for (EmailAccount acc : accounts) {
             System.out.println(acc.getAccEmail());
@@ -229,31 +229,29 @@ public class SetupAccounts extends javax.swing.JFrame {
             System.out.println(acc.getAccSMTP());
             System.out.println(String.valueOf(acc.isStatus()));
         }
-        */
-        
-        
+         */
+
     }//GEN-LAST:event_buttonOkActionPerformed
 
     private void buttonAddAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddAccountActionPerformed
         // TODO add your handling code here:
         DefaultTableModel model = (DefaultTableModel) tableAccounts.getModel();
-        model.addRow(new Object[]{null,null,null});        
+        model.addRow(new Object[]{null, null, null});
     }//GEN-LAST:event_buttonAddAccountActionPerformed
 
     private void buttonDeleteAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDeleteAccountActionPerformed
         // TODO add your handling code here:
         DefaultTableModel model = (DefaultTableModel) tableAccounts.getModel();
-        while(tableAccounts.getSelectedRow() != -1) { 
-            model.removeRow(tableAccounts.getSelectedRow());                      
-        }        
+        while (tableAccounts.getSelectedRow() != -1) {
+            model.removeRow(tableAccounts.getSelectedRow());
+        }
     }//GEN-LAST:event_buttonDeleteAccountActionPerformed
 
     private void buttonSaveSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveSettingsActionPerformed
         // TODO add your handling code here:
         emailAccSettings.getAccountsFromParent(emacController.getAllAccounts(tableAccounts));
         emailAccSettings.setVisible(true);
-        emailAccSettings.setSaveAccountsSettingsPanel();     
-        
+        emailAccSettings.setSaveAccountsSettingsPanel();
     }//GEN-LAST:event_buttonSaveSettingsActionPerformed
 
     private void buttonLoadSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLoadSettingsActionPerformed

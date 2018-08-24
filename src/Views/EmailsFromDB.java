@@ -492,7 +492,7 @@ public class EmailsFromDB extends javax.swing.JFrame {
             for (Integer row : newRows) {
                 System.out.println(row);
             }
-        }        
+        }
     }//GEN-LAST:event_buttonAddRecordActionPerformed
 
     private void buttonDeleteRecordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDeleteRecordActionPerformed

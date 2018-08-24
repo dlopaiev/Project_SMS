@@ -10,11 +10,6 @@ import Controllers.EmailsFromDBController;
 import Controllers.SQLiteJDBCController;
 import java.awt.GridLayout;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -36,7 +31,7 @@ public class DatabaseSettings extends javax.swing.JFrame {
         sjdbcController = new SQLiteJDBCController();
         dbsController.getVendors(VENDORS, jComboBox1);
     }
-    
+
     public DatabaseSettings(EmailsFromDBController efdbController) {
         initComponents();
         this.setVisible(false);
@@ -271,10 +266,10 @@ public class DatabaseSettings extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        
+
         switch (jComboBox1.getSelectedItem().toString()) {
             case "SQLite":
-                if (sqliteSettings.getComboBox2().getSelectedItem() != null) {  
+                if (sqliteSettings.getComboBox2().getSelectedItem() != null) {
                     rs = sjdbcController.getRecords(sqliteSettings.getComboBox2().getSelectedItem().toString());
                     efdbController.fillUpTable(rs);
                     efdbController.setComboBoxList();
@@ -284,15 +279,15 @@ public class DatabaseSettings extends javax.swing.JFrame {
                     for(String dtype : dataTypes) {
                         System.out.println(dtype);
                     }
-                    */
-            
+                     */
+
                 }
                 break;
             case "MySQL":
                 //TODO implementation
                 break;
             default:
-                
+
                 break;
         }
         this.dispose();
@@ -329,8 +324,8 @@ public class DatabaseSettings extends javax.swing.JFrame {
         switch (jComboBox1.getSelectedItem().toString()) {
             case "SQLite":
                 sqliteSettings.getComboBox2().removeAllItems();
-                sjdbcController.connect(sqliteSettings.getComboBox3().getSelectedItem().toString());                
-                for(String table : sjdbcController.getTables()) {
+                sjdbcController.connect(sqliteSettings.getComboBox3().getSelectedItem().toString());
+                for (String table : sjdbcController.getTables()) {
                     sqliteSettings.getComboBox2().addItem(table);
                 }
                 break;
@@ -338,7 +333,7 @@ public class DatabaseSettings extends javax.swing.JFrame {
                 //TODO implementation
                 break;
             default:
-                
+
                 break;
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -393,7 +388,7 @@ public class DatabaseSettings extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JPanel topPanel;
     // End of variables declaration//GEN-END:variables
-    private final String[] VENDORS = {"SQLite","MySQL"};
+    private final String[] VENDORS = {"SQLite", "MySQL"};
     private DatabaseSettingsController dbsController;
     private SQLiteSettings sqliteSettings;
     private MySQLSettings mysqlSettings;

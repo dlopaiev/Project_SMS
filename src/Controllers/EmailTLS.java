@@ -20,44 +20,44 @@ import javax.mail.internet.MimeMessage;
  * @author Denys
  */
 public class EmailTLS {
-    
-    private String username;    
+
+    private String username;
     private String password;
     private String serverSMTP;
-    
+
     private String status;
     private String recipient;
 
     public EmailTLS() {
-        
+
     }
-    
+
     public EmailTLS(String username, String password, String serverSMTP) {
-        
+
         this.username = username;
         this.password = password;
         this.serverSMTP = serverSMTP;
     }
-    
+
     public Session initiateSession() {
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", serverSMTP);
         props.put("mail.smtp.port", "587");
-        
-        Session session = Session.getInstance(props, 
+
+        Session session = Session.getInstance(props,
                 new javax.mail.Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(username, password);
-                    }
-                }
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        }
         );
         return session;
     }
-    
+
     public void sendEmailTLS(String recipient, String subject, String messageText) {
-        
+
         try {
             this.recipient = recipient;
             Message message = new MimeMessage(this.initiateSession());
@@ -65,15 +65,14 @@ public class EmailTLS {
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
             message.setSubject(subject);
             message.setContent(messageText, "text/html");
-            
+
             Transport.send(message);
             System.out.println("Successfully sent");
             this.status = "Successfully sent";
-        } catch(AuthenticationFailedException afe) {
+        } catch (AuthenticationFailedException afe) {
             System.out.println("Authentication Failed. Check security settings for email provider.");
             this.status = "Authentication Failed.";
-        } 
-        catch(MessagingException me) {
+        } catch (MessagingException me) {
             me.printStackTrace();
         }
     }
@@ -85,7 +84,7 @@ public class EmailTLS {
     public String getRecipient() {
         return recipient;
     }
-    
+
     public String getUsername() {
         return username;
     }

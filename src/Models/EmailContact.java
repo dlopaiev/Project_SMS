@@ -10,7 +10,7 @@ package Models;
  * @author Denys
  */
 public class EmailContact {
-    
+
     private String email;
     private String firstName;
     private String lastName;
@@ -92,6 +92,5 @@ public class EmailContact {
     public void setDob(String dob) {
         this.dob = dob;
     }
-    
     
 }

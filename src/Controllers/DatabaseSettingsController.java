@@ -14,18 +14,16 @@ import javax.swing.JComboBox;
  * @author Deniel
  */
 public class DatabaseSettingsController {
-    
+
     public void getVendors(String[] vendors, JComboBox combobox) {
-        for(String vendor : vendors) {
+        for (String vendor : vendors) {
             combobox.addItem(vendor);
         }
     }
-    
+
     public void getDatabases(List<Path> dbList, JComboBox combobox) {
-        for(Path db : dbList) {
+        for (Path db : dbList) {
             combobox.addItem(db.getFileName().toString().replaceAll(".db", ""));
         }
-        
     }
-    
 }

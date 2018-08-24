@@ -8,7 +8,6 @@ package Views;
 import Controllers.EmailAccountsSettingsController;
 import java.nio.file.Path;
 import java.util.List;
-import javax.swing.JFrame;
 
 /**
  *
@@ -24,7 +23,7 @@ public class SaveAccountsSettings extends javax.swing.JPanel {
         easController = new EmailAccountsSettingsController();
         this.loadListOfSettings();
     }
-    
+
     public SaveAccountsSettings(EmailAccountsSettingsController easController) {
         initComponents();
         this.easController = easController;
@@ -141,17 +140,17 @@ public class SaveAccountsSettings extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        
+
         if (jTextField1.getText().length() > 0 && jTextField1.getText() != null) {
             easController.saveSettings(jTextField1.getText());
             this.getTopLevelAncestor().setVisible(false);
             jTextField1.setText("");
             System.out.println("From text field");
-        } else if(jComboBox1.getSelectedItem() != null &&
-                jComboBox1.getSelectedIndex() >= 0) {
+        } else if (jComboBox1.getSelectedItem() != null
+                && jComboBox1.getSelectedIndex() >= 0) {
             easController.saveSettings(jComboBox1.getSelectedItem().toString());
             this.getTopLevelAncestor().setVisible(false);
-        }        
+        }
         this.loadListOfSettings();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -164,7 +163,7 @@ public class SaveAccountsSettings extends javax.swing.JPanel {
     private void loadListOfSettings() {
         List<Path> settings = easController.getSettingsFiles();
         jComboBox1.removeAllItems();
-        for(Path item : settings) {
+        for (Path item : settings) {
             jComboBox1.addItem(item.getFileName().toString().replaceAll(".eas", ""));
         }
     }

@@ -25,7 +25,7 @@ public class LoadAccountsSettings extends javax.swing.JPanel {
         easController = new EmailAccountsSettingsController();
         this.loadListOfSettings();
     }
-    
+
     public LoadAccountsSettings(EmailAccountController emacController, JTable tableAccounts) {
         initComponents();
         this.emacController = emacController;
@@ -138,22 +138,20 @@ public class LoadAccountsSettings extends javax.swing.JPanel {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        try{
+        try {
             emacController.fillUpTable(easController.loadSettings(jComboBox1.getSelectedItem().toString()), tableAccounts);
-            
-            System.out.println(jComboBox1.getSelectedItem().toString());            
-        }catch(NullPointerException npe){
+
+            System.out.println(jComboBox1.getSelectedItem().toString());
+        } catch (NullPointerException npe) {
             System.out.println("File contains no settings");
-        }     
+        }
         this.getTopLevelAncestor().setVisible(false);
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    
-    
     private void loadListOfSettings() {
         List<Path> settings = easController.getSettingsFiles();
         jComboBox1.removeAllItems();
-        for(Path item : settings) {
+        for (Path item : settings) {
             jComboBox1.addItem(item.getFileName().toString().replaceAll(".eas", ""));
         }
     }

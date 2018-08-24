@@ -28,7 +28,7 @@ public class EmailsFromFile extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         efController = new EmailFileController();
         direction = 0;
-        
+
     }
 
     /**
@@ -399,11 +399,11 @@ public class EmailsFromFile extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
+
     public List<EmailContact> getContacts() {
         return contactList;
     }
-    
+
     private void buttonLoadEmailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLoadEmailsActionPerformed
         // TODO add your handling code here:        
         List<String> emailList = efController.loadEmails(efController.chooseFile(this));
@@ -412,17 +412,15 @@ public class EmailsFromFile extends javax.swing.JFrame {
         efController.fillUpTable(emailList, jTable1);
         efController.fillUpSortByCombo(jTable1, jComboBox11);
         efController.fillUpSortByCombo(jTable1, jComboBox10);
-        for(Component comp: jPanel2.getComponents()) {
+        for (Component comp : jPanel2.getComponents()) {
             if (comp instanceof JComboBox) {
                 ((JComboBox) comp).removeAllItems();
                 ((JComboBox) comp).addItem("None");
-                for(int i =0; i < jTable1.getColumnCount(); i++) {
+                for (int i = 0; i < jTable1.getColumnCount(); i++) {
                     ((JComboBox) comp).addItem("Column " + (i + 1));
                 }
             }
         }
-        
-        
     }//GEN-LAST:event_buttonLoadEmailsActionPerformed
 
     private void buttonOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonOkActionPerformed
@@ -437,18 +435,18 @@ public class EmailsFromFile extends javax.swing.JFrame {
         cblist.add(jComboBox6);
         cblist.add(jComboBox7);
         cblist.add(jComboBox8);
-        cblist.add(jComboBox9);    
-        
+        cblist.add(jComboBox9);
+
         try {
             long startTime = System.currentTimeMillis();
             contactList = efController.getContacts(jTable1, cblist);
             long endTime = System.currentTimeMillis();
             System.out.println(endTime - startTime + " mls");
-        } catch(NullPointerException npe) {
+        } catch (NullPointerException npe) {
             System.out.println("The table has no information.");
-        }         
-        
-        this.dispose();              
+        }
+
+        this.dispose();
 
         //Verification
         for (EmailContact item : contactList) {
@@ -464,13 +462,13 @@ public class EmailsFromFile extends javax.swing.JFrame {
             System.out.println("");
             System.out.println("");
         }
-        
+
     }//GEN-LAST:event_buttonOkActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:        
         efController.sortTable(jTable1, jComboBox11.getSelectedIndex(), direction);
-        if(direction == 0) {
+        if (direction == 0) {
             direction++;
         } else {
             direction--;
@@ -554,6 +552,6 @@ public class EmailsFromFile extends javax.swing.JFrame {
     private javax.swing.JPanel topPanel;
     // End of variables declaration//GEN-END:variables
     private EmailFileController efController;
-    private List<EmailContact> contactList;    
+    private List<EmailContact> contactList;
     private int direction;
 }

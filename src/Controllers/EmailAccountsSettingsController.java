@@ -27,36 +27,37 @@ import java.util.List;
  * @author Deniel
  */
 public class EmailAccountsSettingsController {
-    private Path dirSettings;    
+
+    private Path dirSettings;
     private List<EmailAccount> accounts = new ArrayList<>();
 
     public EmailAccountsSettingsController() {
         this.dirSettings = Paths.get(/*getJarLocation()+*/"./settings");
     }
-    
+
     public void setAccounts(List<EmailAccount> accounts) {
         System.out.println(accounts);
         this.accounts = accounts;
     }
-    
+
     public void getAccountsFromParent(List<EmailAccount> accounts) {
-        setAccounts(accounts);        
+        setAccounts(accounts);
     }
-    
+
     public List<Path> getSettingsFiles() {
         List<Path> settingsFiles = new ArrayList<>();
-        if(Files.exists(dirSettings)) {            
-            try(DirectoryStream<Path> stream = Files.newDirectoryStream(dirSettings, "*.eas")) {
-                for(Path entry : stream) {
+        if (Files.exists(dirSettings)) {
+            try (DirectoryStream<Path> stream = Files.newDirectoryStream(dirSettings, "*.eas")) {
+                for (Path entry : stream) {
                     settingsFiles.add(entry.getFileName());
                 }
-            } catch(IOException ioe) {
+            } catch (IOException ioe) {
                 System.err.println(ioe);
             }
         }
         return settingsFiles;
     }
-    
+
     public void saveSettings(String fileName) {
         Path settingsFile = Paths.get(dirSettings + "/" + fileName + ".eas");
         try {
@@ -79,24 +80,24 @@ public class EmailAccountsSettingsController {
             System.out.println("File not found");
         } catch (IOException ioe) {
             System.err.println(ioe);
-        }  
+        }
     }
-    
+
     public List<EmailAccount> loadSettings(String fileName) {
         Path settingsFile = Paths.get(dirSettings + "/" + fileName + ".eas");
         System.out.println(settingsFile);
         List<EmailAccount> accounts = new ArrayList<>();
 
-        try {            
+        try {
             FileInputStream fis = new FileInputStream(settingsFile.toFile());
             ObjectInputStream ois = new ObjectInputStream(fis);
-            
+
             accounts = (List<EmailAccount>) ois.readObject();
-            
+
             ois.close();
             fis.close();
             System.out.println(accounts);
-            
+
         } catch (FileNotFoundException fnfe) {
             System.out.println("File not found");
         } catch (IOException ioe) {
@@ -105,10 +106,10 @@ public class EmailAccountsSettingsController {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        return accounts;  
+        return accounts;
     }
 
-    private String getJarLocation(){
+    private String getJarLocation() {
         String jarDir = null;
         try {
             CodeSource codeSource = EmailAccountsSettingsController.class.getProtectionDomain().getCodeSource();

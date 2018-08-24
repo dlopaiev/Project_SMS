@@ -19,7 +19,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-
 /**
  *
  * @author Denys
@@ -30,39 +29,38 @@ public class Main extends javax.swing.JFrame {
      * Creates new form Main
      */
     private int pX, pY;
-    
+
     public Main() {
         initComponents();
         formSetupAccounts = new SetupAccounts();
         formEmailsFromFile = new EmailsFromFile();
         formEmailsFromDB = new EmailsFromDB();
         mController = new MainController();
-        this.setLocationRelativeTo(null);         
+        this.setLocationRelativeTo(null);
         //this.makeResizable();     
         addMouseListener(new MouseAdapter() {
-                public void mousePressed(MouseEvent me) {
-                    // Get x,y and store them
-                    pX = me.getX();
-                    pY = me.getY();
+            public void mousePressed(MouseEvent me) {
+                // Get x,y and store them
+                pX = me.getX();
+                pY = me.getY();
 
-                }
-                
+            }
 
-                 public void mouseDragged(MouseEvent me) {
+            public void mouseDragged(MouseEvent me) {
 
-                    setLocation(getLocation().x + me.getX() - pX,
-                            getLocation().y + me.getY() - pY);
-                }
-                
-            });
-        
-            addMouseMotionListener(new MouseMotionAdapter() {
-                public void mouseDragged(MouseEvent me) {
-                    
-                    setLocation(getLocation().x + me.getX() - pX,
-                            getLocation().y + me.getY() - pY);
-                }
-            });
+                setLocation(getLocation().x + me.getX() - pX,
+                        getLocation().y + me.getY() - pY);
+            }
+
+        });
+
+        addMouseMotionListener(new MouseMotionAdapter() {
+            public void mouseDragged(MouseEvent me) {
+
+                setLocation(getLocation().x + me.getX() - pX,
+                        getLocation().y + me.getY() - pY);
+            }
+        });
     }
 
     /**
@@ -402,13 +400,12 @@ public class Main extends javax.swing.JFrame {
 
     private void buttonSetupAccountsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSetupAccountsActionPerformed
         // TODO add your handling code here:
-        formSetupAccounts.setVisible(true);        
+        formSetupAccounts.setVisible(true);
     }//GEN-LAST:event_buttonSetupAccountsActionPerformed
 
     private void buttonCloseApplicationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCloseApplicationActionPerformed
         // TODO add your handling code here:
         System.exit(0);
-        
     }//GEN-LAST:event_buttonCloseApplicationActionPerformed
 
     private void buttonSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSendActionPerformed
@@ -418,29 +415,26 @@ public class Main extends javax.swing.JFrame {
             mController.clearTable();
             List<EmailAccount> accounts = formSetupAccounts.getAccounts();
             List<EmailContact> contacts = formEmailsFromFile.getContacts();
-            
+
             ConcurrentLinkedQueue<EmailContact> recipients = new ConcurrentLinkedQueue<>();
-            for(EmailContact contact : contacts) {
+            for (EmailContact contact : contacts) {
                 recipients.add(contact);
-            }            
-            
-            
+            }
+
             System.out.println("Accounts used: " + accounts.size());
             System.out.println("Contacts to process: " + contacts.size());
-            
+
             Runtime rt = Runtime.getRuntime();
             int cpus = rt.availableProcessors();
             System.out.println("Available processors " + cpus);
             ExecutorService es = Executors.newFixedThreadPool(cpus);
-            
-            for(EmailAccount acc : accounts) {
+
+            for (EmailAccount acc : accounts) {
                 EmailTLS emailTLS = new EmailTLS(acc.getAccEmail(), acc.getAccPassword(), acc.getAccSMTP());
-                
                 EmailSending eSending = new EmailSending(emailTLS, recipients, fieldSubject.getText(), textAreaEmail.getText());
-                
                 es.execute(eSending);
             }
-        } catch(NullPointerException npe) {
+        } catch (NullPointerException npe) {
             System.out.print("No accounts selected.");
         }
     }//GEN-LAST:event_buttonSendActionPerformed
@@ -448,14 +442,12 @@ public class Main extends javax.swing.JFrame {
     private void buttonClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonClearActionPerformed
         // TODO add your handling code here:
         fieldSubject.setText("");
-        textAreaEmail.setText("");     
-        
+        textAreaEmail.setText("");
     }//GEN-LAST:event_buttonClearActionPerformed
 
     private void buttonEmailsFromFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEmailsFromFileActionPerformed
         // TODO add your handling code here:
         formEmailsFromFile.setVisible(true);
-        
     }//GEN-LAST:event_buttonEmailsFromFileActionPerformed
 
     private void buttonEmailsFromDBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEmailsFromDBActionPerformed
@@ -470,6 +462,7 @@ public class Main extends javax.swing.JFrame {
         cr.registerComponent(this);
         cr.setSnapSize(new Dimension(4, 10));
     }
+
     /**
      * @param args the command line arguments
      */
@@ -502,7 +495,7 @@ public class Main extends javax.swing.JFrame {
             @Override
             public void run() {
                 new Main().setVisible(true);
-                
+
             }
         });
     }
@@ -533,29 +526,30 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTextArea textAreaEmail;
     private javax.swing.JPanel topPanel;
     // End of variables declaration//GEN-END:variables
-    private SetupAccounts formSetupAccounts;   
+    private SetupAccounts formSetupAccounts;
     private EmailsFromFile formEmailsFromFile;
     private EmailsFromDB formEmailsFromDB;
     private MainController mController;
-    
+
     class EmailSending implements Runnable {
-        
+
         private EmailTLS eTLS;
         private ConcurrentLinkedQueue<EmailContact> eContact;
         private String eSubject;
         private String eMessage;
-        
-        EmailSending(EmailTLS emailTLS, ConcurrentLinkedQueue<EmailContact> recipients, String subject, String message){
+
+        EmailSending(EmailTLS emailTLS, ConcurrentLinkedQueue<EmailContact> recipients, String subject, String message) {
             this.eTLS = emailTLS;
             this.eContact = recipients;
             this.eSubject = subject;
             this.eMessage = message;
         }
+
         @Override
         public void run() {
             sendEmail();
-        }   
-        
+        }
+
         private void sendEmail() {
             eTLS.initiateSession();
             try {

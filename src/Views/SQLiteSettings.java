@@ -177,22 +177,22 @@ public class SQLiteSettings extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        if(!"".equals(jTextField3.getText())) {
+        if (!"".equals(jTextField3.getText())) {
             String dbName = jTextField3.getText();
             sjdbcController.createNewDatabase(dbName);
             jTextField3.setText("");
-            jComboBox3.addItem(dbName);            
+            jComboBox3.addItem(dbName);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     public JComboBox<String> getComboBox3() {
         return jComboBox3;
     }
-    
+
     public JComboBox<String> getComboBox2() {
         return jComboBox2;
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox2;
@@ -204,6 +204,5 @@ public class SQLiteSettings extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
-
     private SQLiteJDBCController sjdbcController;
 }
