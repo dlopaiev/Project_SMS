@@ -246,18 +246,19 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        jTable2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jTable2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"mail@mail.com", "Sent", null}
+                {"mail@mail.com", "Sent", null, null}
             },
             new String [] {
-                "Email", "Status", "Time"
+                "Sent to", "Status", "Time", "Sent from"
             }
         ));
         jTable2.setGridColor(new java.awt.Color(255, 255, 255));
+        jTable2.setOpaque(false);
         jTable2.setRowHeight(24);
-        jTable2.setSelectionBackground(new java.awt.Color(44, 53, 49));
+        jTable2.setSelectionBackground(new java.awt.Color(18, 60, 105));
         jScrollPane3.setViewportView(jTable2);
 
         buttonPause.setBackground(new java.awt.Color(44, 53, 49));
@@ -416,19 +417,16 @@ public class Main extends javax.swing.JFrame {
             System.out.println("Accounts used: " + accounts.size());
             System.out.println("Contacts to process: " + contacts.size());
             
+            Runtime rt = Runtime.getRuntime();
+            int cpus = rt.availableProcessors();
+            System.out.println("Available processors " + cpus);
+            ExecutorService es = Executors.newFixedThreadPool(cpus);
+            
             for(EmailAccount acc : accounts) {
                 EmailTLS emailTLS = new EmailTLS(acc.getAccEmail(), acc.getAccPassword(), acc.getAccSMTP());
-                /*
-                emailTLS.initiateSession();
-                for(int i=0; i<3; i++) {
-                    emailTLS.sendEmailTLS("denys.lopaiev@gmail.com", fieldSubject.getText() + (i+1), textAreaEmail.getText());
-                }
-                */
+                
                 EmailSending eSending = new EmailSending(emailTLS, contacts, fieldSubject.getText(), textAreaEmail.getText());
-                Runtime rt = Runtime.getRuntime();
-                int cpus = rt.availableProcessors();
-                System.out.println("Available processors " + cpus);
-                ExecutorService es = Executors.newFixedThreadPool(cpus);
+                
                 es.execute(eSending);
             }
         } catch(NullPointerException npe) {

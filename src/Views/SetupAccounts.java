@@ -250,7 +250,7 @@ public class SetupAccounts extends javax.swing.JFrame {
 
     private void buttonSaveSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveSettingsActionPerformed
         // TODO add your handling code here:
-        emailAccSettings.getAccountsFromParent(emacController.getAccounts(tableAccounts));
+        emailAccSettings.getAccountsFromParent(emacController.getAllAccounts(tableAccounts));
         emailAccSettings.setVisible(true);
         emailAccSettings.setSaveAccountsSettingsPanel();     
         

@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JTable;
@@ -24,6 +26,8 @@ import org.magicwerk.brownies.collections.BigList;
  * @author Denys
  */
 public class EmailFileController {
+    
+    private List<String[]> ecList = new ArrayList<>();
     
     public List<String> loadEmails(File file) {
         EmailFile emailFile = new EmailFile(file);
@@ -44,11 +48,15 @@ public class EmailFileController {
     public void fillUpTable(List<String> emailList, JTable table) {
                 
         String[] recordDetails;
+        ecList.clear();
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         int colcount = 0;
         int rowcount = 0;        
         model.setRowCount(0);
-        model.setColumnCount(0);        
+        model.setColumnCount(0);    
+        
+        assert (model.getRowCount() == 0) && (model.getColumnCount() == 0) : 
+                "The table is not empty!";
         
         if(emailList.size() > 0) {
             for(String item : emailList) {
@@ -65,7 +73,7 @@ public class EmailFileController {
                     model.setValueAt(recordDetails[i], rowcount, i);
                 }                
                 rowcount++;
-                
+                ecList.add(recordDetails);
             }
             
         }
@@ -80,6 +88,7 @@ public class EmailFileController {
             combo.addItem(item);
         }
          */
+        combo.removeAllItems();
         for (int i = 0; i < table.getColumnCount(); i++) {
             combo.addItem("Column " + (i + 1));
         }
@@ -119,6 +128,35 @@ public class EmailFileController {
             }
             rowCount++;
         }
+    }
+    
+    public void searchTable(JTable table, int selectedColumn, String searchedText) {
+        
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        int colCount = model.getColumnCount();
+        model.setRowCount(0);
+        Pattern pattern = Pattern.compile(searchedText.toLowerCase());
+        Matcher matcher;
+        int index = 0;
+        List<Integer> indices = new ArrayList<>();
+        for(String[] contact : ecList) {
+            matcher = pattern.matcher(contact[selectedColumn].toLowerCase());
+            if(matcher.find()) {
+                indices.add(index);
+            }
+            index++;
+        }
+        int i = 0;
+        int j = 0;
+        for(int idx : indices) {
+            model.addRow(new Object[]{});
+            j = 0;
+            while(j < colCount) {
+                model.setValueAt(ecList.get(idx)[j], i, j);
+                j++;
+            }
+            i++;
+        }        
     }
     
     public List<EmailContact> getContacts(JTable table, List<JComboBox> cblist) {

@@ -122,6 +122,9 @@ public class SQLiteJDBCController implements JDBCController {
                 colNames += "," + colName;
                 values += ",?";
             }
+            
+            assert !",".equals(colNames) : "The database table has no columns!";
+            
             String query = "INSERT INTO " + tableName + "("+ colNames.replaceFirst(",", "") + ") VALUES(" + values.replaceFirst(",", "") + ")";            
             
             PreparedStatement pstmnt = connection.prepareStatement(query);

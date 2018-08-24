@@ -40,8 +40,7 @@ public class EmailAccountsSettingsController {
     }
     
     public void getAccountsFromParent(List<EmailAccount> accounts) {
-        setAccounts(accounts);
-        
+        setAccounts(accounts);        
     }
     
     public List<Path> getSettingsFiles() {
@@ -62,14 +61,7 @@ public class EmailAccountsSettingsController {
         Path settingsFile = Paths.get(dirSettings + "/" + fileName + ".eas");
         try {
             System.out.println(this.accounts);
-        /*
-        CodeSource codeSource = EmailAccountsSettingsController.class.getProtectionDomain().getCodeSource();
-        File jarFile = new File(codeSource.getLocation().toURI().getPath());
-        String jarDir = jarFile.getParentFile().getPath();
-        dirSettings = Paths.get(jarDir+"/settings");
-        */
-        System.out.println(dirSettings);
-        
+            System.out.println(dirSettings);
             if (Files.notExists(dirSettings)) {
                 Files.createDirectory(dirSettings);
             }
@@ -87,10 +79,7 @@ public class EmailAccountsSettingsController {
             System.out.println("File not found");
         } catch (IOException ioe) {
             System.err.println(ioe);
-        } /*catch (URISyntaxException use) {
-            System.out.println("Url not found");
-        }*/
-
+        }  
     }
     
     public List<EmailAccount> loadSettings(String fileName) {

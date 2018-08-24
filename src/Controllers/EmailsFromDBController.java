@@ -99,6 +99,10 @@ public class EmailsFromDBController {
                     cellValues.add(table.getValueAt((row-1), i).toString());
                 }                
             }
+            
+            assert cellValues.size() > 0 : 
+                    "There is no info to insert into database";
+            
             sjdbcController.createRecord(cellValues);
             
         }
