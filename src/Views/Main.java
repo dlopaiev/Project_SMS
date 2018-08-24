@@ -14,6 +14,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.util.List;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -414,6 +415,12 @@ public class Main extends javax.swing.JFrame {
             List<EmailAccount> accounts = formSetupAccounts.getAccounts();
             List<EmailContact> contacts = formEmailsFromFile.getContacts();
             
+            ConcurrentLinkedQueue<EmailContact> recipients = new ConcurrentLinkedQueue<>();
+            for(EmailContact contact : contacts) {
+                recipients.add(contact);
+            }            
+            
+            
             System.out.println("Accounts used: " + accounts.size());
             System.out.println("Contacts to process: " + contacts.size());
             
@@ -425,7 +432,7 @@ public class Main extends javax.swing.JFrame {
             for(EmailAccount acc : accounts) {
                 EmailTLS emailTLS = new EmailTLS(acc.getAccEmail(), acc.getAccPassword(), acc.getAccSMTP());
                 
-                EmailSending eSending = new EmailSending(emailTLS, contacts, fieldSubject.getText(), textAreaEmail.getText());
+                EmailSending eSending = new EmailSending(emailTLS, recipients, fieldSubject.getText(), textAreaEmail.getText());
                 
                 es.execute(eSending);
             }
@@ -529,13 +536,13 @@ public class Main extends javax.swing.JFrame {
     class EmailSending implements Runnable {
         
         private EmailTLS eTLS;
-        private List<EmailContact> eContact;
+        private ConcurrentLinkedQueue<EmailContact> eContact;
         private String eSubject;
         private String eMessage;
         
-        EmailSending(EmailTLS emailTLS, List<EmailContact> contactList, String subject, String message){
+        EmailSending(EmailTLS emailTLS, ConcurrentLinkedQueue<EmailContact> recipients, String subject, String message){
             this.eTLS = emailTLS;
-            this.eContact = contactList;
+            this.eContact = recipients;
             this.eSubject = subject;
             this.eMessage = message;
         }
@@ -546,10 +553,15 @@ public class Main extends javax.swing.JFrame {
         
         private void sendEmail() {
             eTLS.initiateSession();
-            for(EmailContact emailContact : eContact) {
-                eTLS.sendEmailTLS(emailContact.getEmail(), eSubject, eMessage);
+            try {
+                while (eContact.size() > 0) {
+                    eTLS.sendEmailTLS(eContact.poll().getEmail(), eSubject, eMessage);
+                    System.out.println("Sent from " + eTLS.getUsername());
+                }
+                Thread.sleep(50);
+            } catch (InterruptedException ie) {
+                System.out.println(ie.getMessage());
             }
-            
         }
     }
 }

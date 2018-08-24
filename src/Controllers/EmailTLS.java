@@ -21,7 +21,7 @@ import javax.mail.internet.MimeMessage;
  */
 public class EmailTLS {
     
-    private String username;
+    private String username;    
     private String password;
     private String serverSMTP;
 
@@ -70,5 +70,9 @@ public class EmailTLS {
         catch(MessagingException me) {
             me.printStackTrace();
         }
+    }
+    
+    public String getUsername() {
+        return username;
     }
 }
