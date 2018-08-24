@@ -24,6 +24,9 @@ public class EmailTLS {
     private String username;    
     private String password;
     private String serverSMTP;
+    
+    private String status;
+    private String recipient;
 
     public EmailTLS() {
         
@@ -56,6 +59,7 @@ public class EmailTLS {
     public void sendEmailTLS(String recipient, String subject, String messageText) {
         
         try {
+            this.recipient = recipient;
             Message message = new MimeMessage(this.initiateSession());
             message.setFrom(new InternetAddress(username));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
@@ -64,12 +68,22 @@ public class EmailTLS {
             
             Transport.send(message);
             System.out.println("Successfully sent");
+            this.status = "Successfully sent";
         } catch(AuthenticationFailedException afe) {
             System.out.println("Authentication Failed. Check security settings for email provider.");
+            this.status = "Authentication Failed.";
         } 
         catch(MessagingException me) {
             me.printStackTrace();
         }
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getRecipient() {
+        return recipient;
     }
     
     public String getUsername() {

@@ -6,6 +6,7 @@
 package Views;
 
 import Controllers.EmailTLS;
+import Controllers.MainController;
 import Helpers.ComponentResizer;
 import Models.EmailAccount;
 import Models.EmailContact;
@@ -35,6 +36,7 @@ public class Main extends javax.swing.JFrame {
         formSetupAccounts = new SetupAccounts();
         formEmailsFromFile = new EmailsFromFile();
         formEmailsFromDB = new EmailsFromDB();
+        mController = new MainController();
         this.setLocationRelativeTo(null);         
         //this.makeResizable();     
         addMouseListener(new MouseAdapter() {
@@ -250,7 +252,7 @@ public class Main extends javax.swing.JFrame {
         jTable2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"mail@mail.com", "Sent", null, null}
+
             },
             new String [] {
                 "Sent to", "Status", "Time", "Sent from"
@@ -412,6 +414,8 @@ public class Main extends javax.swing.JFrame {
     private void buttonSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSendActionPerformed
         // TODO add your handling code here:
         try {
+            mController.setTable(jTable2);
+            mController.clearTable();
             List<EmailAccount> accounts = formSetupAccounts.getAccounts();
             List<EmailContact> contacts = formEmailsFromFile.getContacts();
             
@@ -532,6 +536,7 @@ public class Main extends javax.swing.JFrame {
     private SetupAccounts formSetupAccounts;   
     private EmailsFromFile formEmailsFromFile;
     private EmailsFromDB formEmailsFromDB;
+    private MainController mController;
     
     class EmailSending implements Runnable {
         
@@ -557,6 +562,8 @@ public class Main extends javax.swing.JFrame {
                 while (eContact.size() > 0) {
                     eTLS.sendEmailTLS(eContact.poll().getEmail(), eSubject, eMessage);
                     System.out.println("Sent from " + eTLS.getUsername());
+                    mController.fillUpReportTable(eTLS.getRecipient(),
+                            eTLS.getStatus(), eTLS.getUsername());
                 }
                 Thread.sleep(50);
             } catch (InterruptedException ie) {
