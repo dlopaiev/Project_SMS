@@ -18,7 +18,7 @@ import java.sql.ResultSet;
 public class DatabaseSettings extends javax.swing.JFrame {
 
     /**
-     * Creates new form DBSettings
+     * Creates new form DatabaseSettings
      */
     public DatabaseSettings() {
         initComponents();
@@ -264,15 +264,22 @@ public class DatabaseSettings extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
+    //Retrieves data from one of the vendors database, fills table up with 
+    //values and adds columns numbers to the combo boxes
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
 
+        //Provides functionality for each database vendor
         switch (jComboBox1.getSelectedItem().toString()) {
             case "SQLite":
                 if (sqliteSettings.getComboBox2().getSelectedItem() != null) {
+                    //Retrieves data from database
                     rs = sjdbcController.getRecords(sqliteSettings.getComboBox2().getSelectedItem().toString());
+                    //Fills table up with records
                     efdbController.fillUpTable(rs);
+                    //Adds columns numbers to the combo boxes
                     efdbController.setComboBoxList();
+                    //Required for communication between controllers
                     efdbController.setSQLiteJDBCController(sjdbcController);
                     /*
                     List<String> dataTypes = sjdbcController.getColumnsDataType();
@@ -293,6 +300,8 @@ public class DatabaseSettings extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    //Used for choosing appropriate panel with settings for selected database
+    //vendor
     private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
         // TODO add your handling code here:
         jPanel3.removeAll();
@@ -319,6 +328,7 @@ public class DatabaseSettings extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jComboBox1ItemStateChanged
 
+    //Connects to chosen database
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         switch (jComboBox1.getSelectedItem().toString()) {

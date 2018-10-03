@@ -175,6 +175,7 @@ public class SQLiteSettings extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox3ActionPerformed
 
+    //Creates new database with specified name
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         if (!"".equals(jTextField3.getText())) {
@@ -185,6 +186,7 @@ public class SQLiteSettings extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    //Getters for combo boxes
     public JComboBox<String> getComboBox3() {
         return jComboBox3;
     }

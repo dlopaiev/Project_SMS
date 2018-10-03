@@ -13,13 +13,20 @@ import java.io.Serializable;
  */
 public class EmailAccount implements Serializable {
 
+    //required for serialization
     private static final long serialVersionUID = 1L;
 
+    //Variables required to keep:
+    //Email account
     private String accEmail;
+    //Password to this account
     private String accPassword;
+    //SMTP server for this email account
     private String accSMTP;
+    //Status of account (active or not in the table)
     private boolean status;
 
+    //Setters and Getters for each class variable
     public String getAccEmail() {
         return accEmail;
     }

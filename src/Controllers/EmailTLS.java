@@ -21,10 +21,12 @@ import javax.mail.internet.MimeMessage;
  */
 public class EmailTLS {
 
+    //Variables required for session initiation
     private String username;
     private String password;
     private String serverSMTP;
 
+    //Variables required for reporting purpose
     private String status;
     private String recipient;
 
@@ -34,18 +36,26 @@ public class EmailTLS {
 
     public EmailTLS(String username, String password, String serverSMTP) {
 
+        //Assigns retrieved values to class variables
         this.username = username;
         this.password = password;
         this.serverSMTP = serverSMTP;
     }
 
+    /**     
+     * Method starts session required for email sending.
+     * @return Session object     
+     */
     public Session initiateSession() {
+        //Object required for session properties
         Properties props = new Properties();
+        //Adds required properties
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", serverSMTP);
         props.put("mail.smtp.port", "587");
 
+        //Connection to email account is performed
         Session session = Session.getInstance(props,
                 new javax.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
@@ -56,18 +66,27 @@ public class EmailTLS {
         return session;
     }
 
+    /**     
+     * Method performs email sending .     
+     * @param recipient email will be sent to this email contact
+     * @param subject email subject
+     * @param messageText email text
+     */
     public void sendEmailTLS(String recipient, String subject, String messageText) {
 
         try {
             this.recipient = recipient;
+            //Message is created
             Message message = new MimeMessage(this.initiateSession());
+            //TODO: check username spoofing
             message.setFrom(new InternetAddress(username));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
             message.setSubject(subject);
             message.setContent(messageText, "text/html");
 
+            //Message is sent
             Transport.send(message);
-            System.out.println("Successfully sent");
+            //System.out.println("Successfully sent");
             this.status = "Successfully sent";
         } catch (AuthenticationFailedException afe) {
             System.out.println("Authentication Failed. Check security settings for email provider.");
@@ -77,14 +96,26 @@ public class EmailTLS {
         }
     }
 
+    /**     
+     * Method retrieves status of email sending.     
+     * @return status
+     */
     public String getStatus() {
         return status;
     }
 
+    /**     
+     * Method retrieves email recipient.     
+     * @return recipient
+     */
     public String getRecipient() {
         return recipient;
     }
 
+    /**     
+     * Method retrieves email account username.     
+     * @return username
+     */
     public String getUsername() {
         return username;
     }

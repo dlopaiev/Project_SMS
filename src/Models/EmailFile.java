@@ -19,6 +19,7 @@ import java.util.List;
  */
 public class EmailFile {
 
+    //File with records
     private File loadedFile;
 
     public EmailFile() {
@@ -29,16 +30,25 @@ public class EmailFile {
         this.loadedFile = loadedFile;
     }
 
+    /**     
+     * Method retrieves records from the file and saves them in the list.
+     * @return list with records from the file
+     */
     public List<String> getEmailsFromFile() {
+        //list with records from the file
         List<String> emailsList = new ArrayList<>();
 
         try {
+            //Opens file to read records from it
             BufferedReader reader = new BufferedReader(new FileReader(loadedFile));
+            //Removes spacing on the beginning and on the end of line of text
             String line = reader.readLine().trim();
+            //If line of text is not empty it gets added to the list
             while (line != null) {
                 if (!line.isEmpty()) {
                     emailsList.add(line);
                 }
+                //Moves to the next line of the file
                 line = reader.readLine();
             }
             reader.close();

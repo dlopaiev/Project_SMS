@@ -459,15 +459,18 @@ public class EmailsFromDB extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    //Opens DatabaseSettings form
     private void buttonConnectToDBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonConnectToDBActionPerformed
         // TODO add your handling code here:
         formDatabaseSettings.setVisible(true);
 
     }//GEN-LAST:event_buttonConnectToDBActionPerformed
 
+    //Closes current form
     private void buttonOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonOkActionPerformed
         // TODO add your handling code here:
+        
         List<JComboBox> cblist = new ArrayList<>();
 
         cblist.add(jComboBox1);
@@ -483,6 +486,7 @@ public class EmailsFromDB extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_buttonOkActionPerformed
 
+    //Adds new row to the table
     private void buttonAddRecordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddRecordActionPerformed
         // TODO add your handling code here:
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
@@ -499,6 +503,7 @@ public class EmailsFromDB extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_buttonDeleteRecordActionPerformed
 
+    //Applies changes to the database
     private void buttonApplyChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonApplyChangesActionPerformed
         // TODO add your handling code here:
         efdbController.insertToDatabase(newRows);

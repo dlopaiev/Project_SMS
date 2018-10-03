@@ -213,10 +213,12 @@ public class SetupAccounts extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //Getter for email account list
     public List<EmailAccount> getAccounts() {
         return accounts;
     }
 
+    //Closes current form
     private void buttonOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonOkActionPerformed
         // TODO add your handling code here:
         accounts = emacController.getAccounts(tableAccounts);
@@ -233,12 +235,14 @@ public class SetupAccounts extends javax.swing.JFrame {
 
     }//GEN-LAST:event_buttonOkActionPerformed
 
+    //Adds new row to the table
     private void buttonAddAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddAccountActionPerformed
         // TODO add your handling code here:
         DefaultTableModel model = (DefaultTableModel) tableAccounts.getModel();
         model.addRow(new Object[]{null, null, null});
     }//GEN-LAST:event_buttonAddAccountActionPerformed
 
+    //Deletes selected rows from the table
     private void buttonDeleteAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDeleteAccountActionPerformed
         // TODO add your handling code here:
         DefaultTableModel model = (DefaultTableModel) tableAccounts.getModel();
@@ -247,6 +251,7 @@ public class SetupAccounts extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_buttonDeleteAccountActionPerformed
 
+    //Opens EmailAccountsSettings form with SaveAccountsSettings panel in there
     private void buttonSaveSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveSettingsActionPerformed
         // TODO add your handling code here:
         emailAccSettings.getAccountsFromParent(emacController.getAllAccounts(tableAccounts));
@@ -254,6 +259,7 @@ public class SetupAccounts extends javax.swing.JFrame {
         emailAccSettings.setSaveAccountsSettingsPanel();
     }//GEN-LAST:event_buttonSaveSettingsActionPerformed
 
+    //Opens EmailAccountsSettings form with LoadAccountsSettings panel in there
     private void buttonLoadSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLoadSettingsActionPerformed
         // TODO add your handling code here:
         emailAccSettings.setVisible(true);

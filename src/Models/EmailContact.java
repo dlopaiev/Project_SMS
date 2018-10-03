@@ -11,6 +11,7 @@ package Models;
  */
 public class EmailContact {
 
+    //Variables required to keep information about EmailContact object
     private String email;
     private String firstName;
     private String lastName;
@@ -21,6 +22,7 @@ public class EmailContact {
     private String country;
     private String dob;
 
+    //Setters and Getters for each class variable
     public String getEmail() {
         return email;
     }

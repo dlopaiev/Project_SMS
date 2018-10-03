@@ -400,10 +400,12 @@ public class EmailsFromFile extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //Getter for the list with email contacts
     public List<EmailContact> getContacts() {
         return contactList;
     }
 
+    //Loads records from the chosen file to the table
     private void buttonLoadEmailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLoadEmailsActionPerformed
         // TODO add your handling code here:        
         List<String> emailList = efController.loadEmails(efController.chooseFile(this));
@@ -423,6 +425,7 @@ public class EmailsFromFile extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_buttonLoadEmailsActionPerformed
 
+    //Closes current form saving email contacts to the list
     private void buttonOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonOkActionPerformed
         // TODO add your handling code here:
         List<JComboBox> cblist = new ArrayList<>();
@@ -465,6 +468,7 @@ public class EmailsFromFile extends javax.swing.JFrame {
 
     }//GEN-LAST:event_buttonOkActionPerformed
 
+    //Sorts table by chosen column
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:        
         efController.sortTable(jTable1, jComboBox11.getSelectedIndex(), direction);
@@ -475,6 +479,7 @@ public class EmailsFromFile extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    //Searches for value in chosen column
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         efController.searchTable(jTable1, jComboBox10.getSelectedIndex(), fieldSearch.getText());

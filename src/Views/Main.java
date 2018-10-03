@@ -24,12 +24,13 @@ import java.util.concurrent.Executors;
  * @author Denys
  */
 public class Main extends javax.swing.JFrame {
-
+    
+    //Window coordinates
+    private int pX, pY;
+    
     /**
      * Creates new form Main
      */
-    private int pX, pY;
-
     public Main() {
         initComponents();
         formSetupAccounts = new SetupAccounts();
@@ -37,7 +38,8 @@ public class Main extends javax.swing.JFrame {
         formEmailsFromDB = new EmailsFromDB();
         mController = new MainController();
         this.setLocationRelativeTo(null);
-        //this.makeResizable();     
+        //this.makeResizable();
+        //Allows to drag current window
         addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent me) {
                 // Get x,y and store them
@@ -397,26 +399,33 @@ public class Main extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    //Opens SetupAccounts form
     private void buttonSetupAccountsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSetupAccountsActionPerformed
         // TODO add your handling code here:
         formSetupAccounts.setVisible(true);
     }//GEN-LAST:event_buttonSetupAccountsActionPerformed
 
+    //Closes the application
     private void buttonCloseApplicationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCloseApplicationActionPerformed
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_buttonCloseApplicationActionPerformed
 
+    //Starts email sending
     private void buttonSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSendActionPerformed
         // TODO add your handling code here:
         try {
+            //Takes required table and clears from any records
             mController.setTable(jTable2);
             mController.clearTable();
+            //Gets lists with email accounts and email contacts
             List<EmailAccount> accounts = formSetupAccounts.getAccounts();
             List<EmailContact> contacts = formEmailsFromFile.getContacts();
 
+            //Creates list that supports concurrency
             ConcurrentLinkedQueue<EmailContact> recipients = new ConcurrentLinkedQueue<>();
+            //Adds records to this list
             for (EmailContact contact : contacts) {
                 recipients.add(contact);
             }
@@ -424,14 +433,21 @@ public class Main extends javax.swing.JFrame {
             System.out.println("Accounts used: " + accounts.size());
             System.out.println("Contacts to process: " + contacts.size());
 
+            //Required to get number of available processors on used computer
             Runtime rt = Runtime.getRuntime();
             int cpus = rt.availableProcessors();
             System.out.println("Available processors " + cpus);
+            //Creates pool for tasks to be executed limited by numbers of
+            //available CPUs
             ExecutorService es = Executors.newFixedThreadPool(cpus);
 
+            //Performs connection to each email account and sends emails from it
             for (EmailAccount acc : accounts) {
+                //Connects to email account
                 EmailTLS emailTLS = new EmailTLS(acc.getAccEmail(), acc.getAccPassword(), acc.getAccSMTP());
+                //Creates task for email sending
                 EmailSending eSending = new EmailSending(emailTLS, recipients, fieldSubject.getText(), textAreaEmail.getText());
+                //The task is added to the pool
                 es.execute(eSending);
             }
         } catch (NullPointerException npe) {
@@ -439,22 +455,27 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_buttonSendActionPerformed
 
+    //Removes text from the fields
     private void buttonClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonClearActionPerformed
         // TODO add your handling code here:
+        //Clears any text entered to the text field and text area
         fieldSubject.setText("");
         textAreaEmail.setText("");
     }//GEN-LAST:event_buttonClearActionPerformed
 
+    //Opens EmailsFromFile form 
     private void buttonEmailsFromFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEmailsFromFileActionPerformed
         // TODO add your handling code here:
         formEmailsFromFile.setVisible(true);
     }//GEN-LAST:event_buttonEmailsFromFileActionPerformed
 
+    //Opens EmailsFromDB form
     private void buttonEmailsFromDBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEmailsFromDBActionPerformed
         // TODO add your handling code here:
         formEmailsFromDB.setVisible(true);
     }//GEN-LAST:event_buttonEmailsFromDBActionPerformed
 
+    //Resizes current window (currently not used)
     private void makeResizable() {
         ComponentResizer cr = new ComponentResizer();
         cr.setMinimumSize(new Dimension(780, 460));
@@ -531,13 +552,17 @@ public class Main extends javax.swing.JFrame {
     private EmailsFromDB formEmailsFromDB;
     private MainController mController;
 
+    //Inner class which is task for execution
     class EmailSending implements Runnable {
 
+        //Class variables
         private EmailTLS eTLS;
+        //List with email contacts supporting concurrency
         private ConcurrentLinkedQueue<EmailContact> eContact;
         private String eSubject;
         private String eMessage;
-
+        
+        //Assigns given values to class variables
         EmailSending(EmailTLS emailTLS, ConcurrentLinkedQueue<EmailContact> recipients, String subject, String message) {
             this.eTLS = emailTLS;
             this.eContact = recipients;
@@ -545,20 +570,30 @@ public class Main extends javax.swing.JFrame {
             this.eMessage = message;
         }
 
+        //Runnable method implementation
         @Override
         public void run() {
             sendEmail();
         }
 
+        /**
+         * Method is responsible for email sending.
+         */
         private void sendEmail() {
+            //Establishes connection with current email account
             eTLS.initiateSession();
             try {
+                //Block sends emails to recipients from the list if it's not 
+                //empty and fills report table up
                 while (eContact.size() > 0) {
+                    //Sends email
                     eTLS.sendEmailTLS(eContact.poll().getEmail(), eSubject, eMessage);
-                    System.out.println("Sent from " + eTLS.getUsername());
+                    //System.out.println("Sent from " + eTLS.getUsername());
+                    //Fills report table up
                     mController.fillUpReportTable(eTLS.getRecipient(),
                             eTLS.getStatus(), eTLS.getUsername());
                 }
+                //Makes current thread to wait specified time
                 Thread.sleep(50);
             } catch (InterruptedException ie) {
                 System.out.println(ie.getMessage());

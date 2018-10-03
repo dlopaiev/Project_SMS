@@ -114,6 +114,7 @@ public class EmailAccountsSettings extends javax.swing.JFrame {
     private LoadAccountsSettings loadAccSettings;
     private EmailAccountsSettingsController easController;
 
+    //Adds SaveAccountsSettings panel to the main panel
     public void setSaveAccountsSettingsPanel() {
         jPanel1.removeAll();
         jPanel1.revalidate();
@@ -122,6 +123,7 @@ public class EmailAccountsSettings extends javax.swing.JFrame {
         jPanel1.add(saveAccSettings, BorderLayout.NORTH);
     }
 
+    //Adds LoadAccountsSettings panel to the main panel
     public void setLoadAccountsSettingsPanel(EmailAccountController emacController, JTable tableAccounts) {
         loadAccSettings = new LoadAccountsSettings(emacController, tableAccounts);
         jPanel1.removeAll();
@@ -131,6 +133,7 @@ public class EmailAccountsSettings extends javax.swing.JFrame {
         jPanel1.add(loadAccSettings, BorderLayout.NORTH);
     }
 
+    //Retrieves list of email accounts from the table located on the parent form
     public void getAccountsFromParent(List<EmailAccount> accounts) {
 
         easController.getAccountsFromParent(accounts);

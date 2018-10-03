@@ -28,26 +28,43 @@ import java.util.List;
  */
 public class EmailAccountsSettingsController {
 
+    //Keeps path to the settings folder
     private Path dirSettings;
+    //List with email accounts
     private List<EmailAccount> accounts = new ArrayList<>();
 
     public EmailAccountsSettingsController() {
         this.dirSettings = Paths.get(/*getJarLocation()+*/"./settings");
     }
 
+    /**     
+     * Method assigns given list with email accounts to class variable.     
+     * @param accounts provided list with email accounts           
+     */
     public void setAccounts(List<EmailAccount> accounts) {
-        System.out.println(accounts);
+        //System.out.println(accounts);
         this.accounts = accounts;
     }
 
+    /**     
+     * Method retrieves list with email accounts.     
+     * @param accounts provided list with email accounts     
+     */
     public void getAccountsFromParent(List<EmailAccount> accounts) {
         setAccounts(accounts);
     }
 
+    /**     
+     * Method looks for settings files with extension .eas within settings 
+     * folder if it exists.     
+     * @return list with paths to existing settings files      
+     */
     public List<Path> getSettingsFiles() {
         List<Path> settingsFiles = new ArrayList<>();
+        //Block checks if settings folder exists
         if (Files.exists(dirSettings)) {
             try (DirectoryStream<Path> stream = Files.newDirectoryStream(dirSettings, "*.eas")) {
+                //Adds name of the settings file to the list
                 for (Path entry : stream) {
                     settingsFiles.add(entry.getFileName());
                 }
@@ -58,21 +75,30 @@ public class EmailAccountsSettingsController {
         return settingsFiles;
     }
 
+    /**     
+     * Method saves email accounts settings to the file with specified name.     
+     * @param fileName name for the file that will keep email accounts settings     
+     */
     public void saveSettings(String fileName) {
+        //Keeps full path to the file
         Path settingsFile = Paths.get(dirSettings + "/" + fileName + ".eas");
         try {
-            System.out.println(this.accounts);
-            System.out.println(dirSettings);
+            //System.out.println(this.accounts);
+            //System.out.println(dirSettings);
+            
+            //Settings folder is created if it doesn't exist
             if (Files.notExists(dirSettings)) {
                 Files.createDirectory(dirSettings);
             }
+            //File to keep email accounts settings is created if it doesn't exist
             if (Files.notExists(settingsFile)) {
                 Files.createFile(settingsFile);
             }
+            //The list with email accounts gets written to the file as object
             FileOutputStream fos = new FileOutputStream(settingsFile.toFile());
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(this.accounts);
-            System.out.println(this.accounts);
+            //System.out.println(this.accounts);
             oos.close();
             fos.close();
 
@@ -83,20 +109,29 @@ public class EmailAccountsSettingsController {
         }
     }
 
+    /**     
+     * Method retrieves list with email accounts from required file.     
+     * @param fileName provided name of the file with email accounts settings 
+     * @return list with email accounts
+     */
     public List<EmailAccount> loadSettings(String fileName) {
+        //Keeps full path to the file
         Path settingsFile = Paths.get(dirSettings + "/" + fileName + ".eas");
-        System.out.println(settingsFile);
+        //System.out.println(settingsFile);
         List<EmailAccount> accounts = new ArrayList<>();
 
+        //Block opens the file and gets object with settings from there
         try {
             FileInputStream fis = new FileInputStream(settingsFile.toFile());
             ObjectInputStream ois = new ObjectInputStream(fis);
 
+            //Object from file is assigned to local variable as List that 
+            //contains EmailAccount objects
             accounts = (List<EmailAccount>) ois.readObject();
 
             ois.close();
             fis.close();
-            System.out.println(accounts);
+            //System.out.println(accounts);
 
         } catch (FileNotFoundException fnfe) {
             System.out.println("File not found");
@@ -109,6 +144,10 @@ public class EmailAccountsSettingsController {
         return accounts;
     }
 
+    /**     
+     * Method retrieves location for executable jar file.
+     * @return path to executable jar file
+     */
     private String getJarLocation() {
         String jarDir = null;
         try {

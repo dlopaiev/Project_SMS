@@ -1,0 +1,9 @@
+<#if licenseFirst??>
+${licenseFirst}
+</#if>
+${licensePrefix}SMS: Smart Marketing System
+${licensePrefix}v 1.0 
+${licensePrefix}2018
+<#if licenseLast??>
+${licenseLast}
+</#if>

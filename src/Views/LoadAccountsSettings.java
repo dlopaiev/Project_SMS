@@ -131,11 +131,14 @@ public class LoadAccountsSettings extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    //Closes parent form
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         this.getTopLevelAncestor().setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    //Loads accounts settings from chosen file into the table and closes parent 
+    //form
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         try {
@@ -148,6 +151,7 @@ public class LoadAccountsSettings extends javax.swing.JPanel {
         this.getTopLevelAncestor().setVisible(false);
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    //Fills combo box up with available accounts settings
     private void loadListOfSettings() {
         List<Path> settings = easController.getSettingsFiles();
         jComboBox1.removeAllItems();

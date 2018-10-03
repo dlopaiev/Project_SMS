@@ -138,28 +138,35 @@ public class SaveAccountsSettings extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    //Saves email accounts settings to existing file or to a new one
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-
+        //If name for the file was specified creates it and saves settings in 
+        //there
         if (jTextField1.getText().length() > 0 && jTextField1.getText() != null) {
             easController.saveSettings(jTextField1.getText());
             this.getTopLevelAncestor().setVisible(false);
             jTextField1.setText("");
-            System.out.println("From text field");
-        } else if (jComboBox1.getSelectedItem() != null
+            //System.out.println("From text field");
+        } 
+        //Saves settings to existing file
+        else if (jComboBox1.getSelectedItem() != null
                 && jComboBox1.getSelectedIndex() >= 0) {
             easController.saveSettings(jComboBox1.getSelectedItem().toString());
             this.getTopLevelAncestor().setVisible(false);
         }
+        //Updates list with available settings
         this.loadListOfSettings();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    //Closes parent form
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         this.getTopLevelAncestor().setVisible(false);
         jTextField1.setText("");
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    //Loads list of available settings to the combo box
     private void loadListOfSettings() {
         List<Path> settings = easController.getSettingsFiles();
         jComboBox1.removeAllItems();
